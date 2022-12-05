@@ -53,7 +53,21 @@ describe('DEX', () => {
     });
   });
 
-  describe('Buy', () => {});
+  describe('Buy', () => {
+    it('User can buy tokens', async () => {
+      await expect(
+        dex.connect(addr1).buy(10, { value: 1000 })
+      ).to.changeTokenBalances(token, [dex.address, addr1.address], [-10, 10]);
+    });
+
+    it('User cannot buy invalid number of tokens', async () => {
+      await expect(dex.connect(addr1).buy(91, { value: 9100 })).to.be.reverted;
+    });
+
+    it('User cannot buy with invalid value', async () => {
+      await expect(dex.connect(addr1).buy(5, {value: 510 })).to.be.reverted;
+    });
+  });
 
   describe('Withdraw tokens', () => {});
 
