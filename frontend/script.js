@@ -7,7 +7,16 @@ const tokenAbi = [];
 const tokenAddress = "";
 let tokenContract = null;
 
-const dexAbi = [];
+const dexAbi = [
+  "constructor(address _token, uint256 _price)",
+  "function associatedToken() view returns (address)",
+  "function buy(uint256 numTokens) payable",
+  "function getPrice(uint256 numTokens) view returns (uint256)",
+  "function getTokenBalance() view returns (uint256)",
+  "function sell()",
+  "function withdrawFunds()",
+  "function withdrawTokens()"
+];
 const dexAddress = "";
 let dexContract = null;
 
