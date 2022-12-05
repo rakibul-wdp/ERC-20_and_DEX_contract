@@ -1,6 +1,4 @@
-const { ethers } = require('hardhat');
-
-const provider = new ethers.provider.Web3Provider(window.ethereum);
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 let signer;
 
 const tokenAbi = [
@@ -53,5 +51,20 @@ async function getPrice() {
 async function getTokenBalance() {
   await getAccess();
   const balance = await tokenContract.balanceOf(await signer.getAddress());
-  document.getElementById('tokenBalance').innerHTML = balance;
+  document.getElementById('tokensBalance').innerHTML = balance;
+}
+
+async function getAvailableTokens() {
+  await getAccess();
+  const tokens = await dexContract.getTokenBalance();
+  document.getElementById('tokensAvailable').innerHTML = tokens;
+}
+
+async function grantAccess() {
+  await getAccess();
+  const value = document.getElementById('tokenGrant').value;
+  await tokenContract
+    .approve(dexAddress, value)
+    .then(() => alert('success'))
+    .catch((error) => alert(error));
 }
