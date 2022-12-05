@@ -76,3 +76,13 @@ async function sell() {
     .then(() => alert('Success'))
     .catch((error) => alert(error));
 }
+
+async function buy() {
+  await getAccess();
+  const tokenAmount = document.getElementById('tokensToBuy').value;
+  const value = (await getPrice()) * tokenAmount;
+  await dexContract
+    .buy(tokenAmount, { value: value})
+    .then(() => alert('Success'))
+    .catch((error) => alert(error));
+}
