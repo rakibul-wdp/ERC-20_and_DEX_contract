@@ -13,5 +13,12 @@ describe('Token', () => {
     token = await Token.deploy(tokenSupply);
   });
 
-  
+  describe('Deployment', () => {
+    it('Should assign total supply of tokens to the owner/deployer', async () => {
+      const ownerBalance = await token.balanceOf(owner.address);
+      expect(await token.totalSupply()).to.equal(ownerBalance);
+    });
+  });
+
+  describe('Transactions', () => {});
 })
