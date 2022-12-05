@@ -69,7 +69,19 @@ describe('DEX', () => {
     });
   });
 
-  describe('Withdraw tokens', () => {});
+  describe('Withdraw tokens', () => {
+    it('Non-owner cannot withdraw tokens', async () => {
+      await expect(dex.connect(addr1).withdrawTokens()).to.be.reverted;
+    });
+
+    it('Owner can withdraw tokens', async () => {
+      await expect(dex.withdrawTokens()).to.changeTokenBalances(
+        token,
+        [dex.address, owner.address],
+        [-90, 90]
+      );
+    });
+  });
 
   describe('Withdraw funds', () => {});
 })
