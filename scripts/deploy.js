@@ -7,20 +7,21 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  
+}
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+async function writeDeploymentInfo(contract, filename='') {
+  const data = {
+    network: hre.network.name,
+    contract: {
+      address: contract.address,
+      signerAddress: contract.signer.address,
+      abi: contract.interface.format(),
+    },
+  };
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  const content = JSON.stringify(data, null, 2);
+  await fs.writeFile(filename, content, {encoding: 'utf-8'});
 }
 
 // We recommend this pattern to be able to use async/await everywhere
