@@ -83,5 +83,16 @@ describe('DEX', () => {
     });
   });
 
-  describe('Withdraw funds', () => {});
-})
+  describe('Withdraw funds', () => {
+    it('Owner can withdraw token proceeds', async () => {
+      await expect(dex.withdrawFunds()).to.changeEtherBalances(
+        [owner.address, dex.address],
+        [1000, -1000]
+      );
+    });
+
+    it('Non-owner cannot withdraw token proceeds', async () => {
+      await expect(dex.connect(addr1).withdrawFunds()).to.be.reverted;
+    });
+  });
+});
