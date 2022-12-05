@@ -5,9 +5,19 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require("hardhat");
+const fs = require('fs/promises');
 
 async function main() {
-  
+  const Token = hre.ethers.getContractFactory('Token');
+  const token = await (await Token).deploy('100');
+
+  const DEX = hre.ethers.getContractFactory('DEX');
+  const dex = await (await DEX).deploy(token.address, 100);
+
+  await token.deployed();
+  await dex.deployed();
+  await writeDeploymentInfo(token, 'token.json');
+  await writeDeploymentInfo(dex, 'dex.json');
 }
 
 async function writeDeploymentInfo(contract, filename='') {
