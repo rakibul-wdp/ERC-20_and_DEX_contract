@@ -12,7 +12,7 @@ describe('DEX', () => {
   let addr1;
   let addr2;
 
-  beforeEach(async () => {
+  before(async () => {
     [owner, addr1, addr2] = await ethers.getSigners();
     const Token = await ethers.getContractFactory('Token');
     token = await Token.deploy(tokenSupply);
@@ -43,7 +43,15 @@ describe('DEX', () => {
     });
   });
 
-  describe('Getters', () => {});
+  describe('Getters', () => {
+    it('Should return correct token balance', async () => {
+      expect(await dex.getTokenBalance()).to.equal(100);
+    });
+
+    it('Should return correct token price', async () => {
+      expect(await dex.getPrice(10)).to.equal(price * 10);
+    });
+  });
 
   describe('Buy', () => {});
 
