@@ -49,3 +49,9 @@ async function getPrice() {
   document.getElementById('tokenPrice').innerHTML = price;
   return price;
 }
+
+async function getTokenBalance() {
+  await getAccess();
+  const balance = await tokenContract.balanceOf(await signer.getAddress());
+  document.getElementById('tokenBalance').innerHTML = balance;
+}
