@@ -45,4 +45,17 @@ contract DEX {
       balance
     );
   }
+
+  function withdrawFunds() external onlyOwner {
+    (bool sent, ) = payable(msg.sender).call{value: address(this).balance}(
+      ''
+    );
+    require(sent);
+  }
+
+  function getPrice(uint numTokens) public view returns (uint) {
+    return numTokens * price;
+  }
+
+  
 }
