@@ -19,5 +19,21 @@ describe('DEX', () => {
 
     const DEX = await ethers.getContractFactory('DEX');
     dex = await DEX.deploy(token.address, price);
-  })
+  });
+
+  describe('Sell', () => {
+    it('Should fail if contract is not approved', async () => {
+      await expect(dex.sell()).to.be.reverted;
+    });
+
+    
+  });
+
+  describe('Getters', () => {});
+
+  describe('Buy', () => {});
+
+  describe('Withdraw tokens', () => {});
+
+  describe('Withdraw funds', () => {});
 })
