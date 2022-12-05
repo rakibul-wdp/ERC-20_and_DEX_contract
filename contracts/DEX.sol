@@ -53,9 +53,19 @@ contract DEX {
     require(sent);
   }
 
-  function getPrice(uint numTokens) public view returns (uint) {
+  function getPrice(uint256 numTokens) public view returns (uint256) {
     return numTokens * price;
   }
 
-  
+  function buy(uint256 numTokens) external payable {
+    require(numTokens <= getTokenBalance(), 'not enough tokens');
+    uint256 priceForTokens = getPrice(numTokens);
+    require(msg.value == priceForTokens, 'invalid value sent');
+
+    associatedToken.transfer(msg.sender, numTokens);
+  }
+
+  function getTokenBalance() public view returns (uint256) {
+    return associatedToken.balanceOf(address(this));
+  }
 }
